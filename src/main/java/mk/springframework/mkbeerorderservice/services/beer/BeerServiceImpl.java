@@ -1,6 +1,6 @@
 package mk.springframework.mkbeerorderservice.services.beer;
 
-import mk.springframework.mkbeerorderservice.web.model.BeerDto;
+import mk.springframework.brewery.model.BeerDto;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;

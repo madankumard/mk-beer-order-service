@@ -1,7 +1,7 @@
 package mk.springframework.mkbeerorderservice.services;
 
-import mk.springframework.mkbeerorderservice.web.model.BeerOrderDto;
-import mk.springframework.mkbeerorderservice.web.model.BeerOrderPagedList;
+import mk.springframework.brewery.model.BeerOrderDto;
+import mk.springframework.brewery.model.BeerOrderPagedList;
 import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;

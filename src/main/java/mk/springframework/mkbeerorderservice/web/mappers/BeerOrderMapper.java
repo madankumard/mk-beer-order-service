@@ -1,7 +1,7 @@
 package mk.springframework.mkbeerorderservice.web.mappers;
 
 import mk.springframework.mkbeerorderservice.domain.BeerOrder;
-import mk.springframework.mkbeerorderservice.web.model.BeerOrderDto;
+import mk.springframework.brewery.model.BeerOrderDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

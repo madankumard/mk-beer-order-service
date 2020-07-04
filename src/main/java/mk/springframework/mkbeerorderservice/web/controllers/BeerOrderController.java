@@ -1,8 +1,8 @@
 package mk.springframework.mkbeerorderservice.web.controllers;
 
 import mk.springframework.mkbeerorderservice.services.BeerOrderService;
-import mk.springframework.mkbeerorderservice.web.model.BeerOrderDto;
-import mk.springframework.mkbeerorderservice.web.model.BeerOrderPagedList;
+import mk.springframework.brewery.model.BeerOrderDto;
+import mk.springframework.brewery.model.BeerOrderPagedList;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

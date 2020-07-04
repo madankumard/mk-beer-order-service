@@ -1,6 +1,6 @@
 package mk.springframework.mkbeerorderservice.services.beer;
 
-import mk.springframework.mkbeerorderservice.web.model.BeerDto;
+import mk.springframework.brewery.model.BeerDto;
 
 import java.util.Optional;
 import java.util.UUID;
