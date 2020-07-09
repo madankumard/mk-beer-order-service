@@ -75,7 +75,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
         if(beerOrderOptional.isPresent()){
             BeerOrder beerOrder = beerOrderOptional.get();
             sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
-            updateAllocatedQty(beerOrderDto, beerOrder);
+            updateAllocatedQty(beerOrderDto);
         }else{
             log.error("Order Id Not Found: " + beerOrderDto.getId());
         }
@@ -87,13 +87,13 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
         if(beerOrderOptional.isPresent()) {
             BeerOrder beerOrder = beerOrderOptional.get();
             sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_NO_INVENTORY);
-            updateAllocatedQty(beerOrderDto, beerOrder);
+            updateAllocatedQty(beerOrderDto);
         }else{
             log.error("Order Id Not Found: " + beerOrderDto.getId());
         }
     }
 
-    private void updateAllocatedQty(BeerOrderDto beerOrderDto, BeerOrder beerOrder) {
+    private void updateAllocatedQty(BeerOrderDto beerOrderDto) {
         Optional<BeerOrder> allocatedOrderOptional = beerOrderRepository.findById(beerOrderDto.getId());
 
         if(allocatedOrderOptional.isPresent()){
@@ -105,7 +105,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
                     }
                 });
             });
-            beerOrderRepository.saveAndFlush(beerOrder);
+            beerOrderRepository.saveAndFlush(allocatedOrder);
         }else {
             log.error("Order Not Found. Id: " + beerOrderDto.getId());
         }
@@ -120,6 +120,19 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
             sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_FAILED);
         }else {
             log.error("Order Not Found. Id: " + beerOrderDto.getId());
+        }
+    }
+
+    @Override
+    public void beerOrderPickedUp(UUID id) {
+        Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(id);
+
+        if(beerOrderOptional.isPresent()){
+            BeerOrder beerOrder = beerOrderOptional.get();
+            //do process
+            sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.BEERORDER_PICKED_UP);
+        }else{
+            log.error("Order Not Found. Id: " + id);
         }
     }
 
