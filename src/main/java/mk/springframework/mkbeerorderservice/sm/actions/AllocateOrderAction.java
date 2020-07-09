@@ -2,6 +2,7 @@ package mk.springframework.mkbeerorderservice.sm.actions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mk.springframework.brewery.model.events.AllocateOrderRequest;
 import mk.springframework.mkbeerorderservice.config.JmsConfig;
 import mk.springframework.mkbeerorderservice.domain.BeerOrder;
 import mk.springframework.mkbeerorderservice.domain.BeerOrderEventEnum;
@@ -14,6 +15,7 @@ import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.Action;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -28,11 +30,18 @@ public class AllocateOrderAction implements Action<BeerOrderStatusEnum, BeerOrde
     @Override
     public void execute(StateContext<BeerOrderStatusEnum, BeerOrderEventEnum> context) {
         String beerOrderId = (String) context.getMessage().getHeaders().get(BeerOrderManagerImpl.ORDER_ID_HEADER);
-        BeerOrder beerOrder = beerOrderRepository.findOneById(UUID.fromString(beerOrderId));
+        Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(UUID.fromString(beerOrderId));
 
-        jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_QUEUE,
-                beerOrderMapper.beerOrderToDto(beerOrder));
+        if (beerOrderOptional.isPresent()) {
+            BeerOrder beerOrder = beerOrderOptional.get();
+            jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_QUEUE,
+                    AllocateOrderRequest.builder()
+                            .beerOrderDto(beerOrderMapper.beerOrderToDto(beerOrder))
+                            .build());
+            log.debug("Sent Allocation Request for order id: " + beerOrderId);
+        } else {
+            log.error("Beer Order Not Found!");
+        }
 
-        log.debug("Sent Allocation Request for order id: " + beerOrderId);
     }
 }
