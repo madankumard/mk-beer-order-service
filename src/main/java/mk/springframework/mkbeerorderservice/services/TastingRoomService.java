@@ -37,7 +37,7 @@ public class TastingRoomService {
     }
 
     @Transactional
-    @Scheduled(fixedRate = 5000) // run every 5 seconds
+    @Scheduled(fixedRate = 15000) // run every 15 seconds
     public void placeTastingRoomOrder(){
         List<Customer> customerList = customerRepository.findAllByCustomerNameLike(BeerOrderBootStrap.TASTING_ROOM);
 
@@ -54,7 +54,7 @@ public class TastingRoomService {
 
         BeerOrderLineDto beerOrderLine = BeerOrderLineDto.builder()
                 .upc(beerToOrder)
-                .orderQuantity(new Random().nextInt(6))
+                .orderQuantity(new Random().nextInt(6) + 2)
                 .build();
 
         List<BeerOrderLineDto> beerOrderLineSet = new ArrayList<>();

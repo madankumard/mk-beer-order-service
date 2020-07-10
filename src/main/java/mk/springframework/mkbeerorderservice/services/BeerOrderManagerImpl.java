@@ -51,6 +51,12 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
         log.debug("Process Validation Result for beerOrderId: " + beerOrderId + " Valid? " + isValid);
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(beerOrderId);
 
         if (beerOrderOptional.isPresent()) {
