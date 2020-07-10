@@ -37,7 +37,7 @@ public class TastingRoomService {
     }
 
     @Transactional
-    //@Scheduled(fixedRate = 5000) // run every 5 seconds
+    @Scheduled(fixedRate = 5000) // run every 5 seconds
     public void placeTastingRoomOrder(){
         List<Customer> customerList = customerRepository.findAllByCustomerNameLike(BeerOrderBootStrap.TASTING_ROOM);
 
@@ -45,6 +45,7 @@ public class TastingRoomService {
             doPlaceOrder(customerList.get(0));
         } else {
             log.debug("Too many or too few tasting room customers found");
+            customerList.forEach(customer -> log.debug(customer.toString()));
         }
     }
 
